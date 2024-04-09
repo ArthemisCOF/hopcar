@@ -1,10 +1,10 @@
 const express = require(`express`);
+const carsController = require('../controller/carsController')
 const router = express.Router()
 
 
-router.get('/cars', async(req, res, next)=>{
-    res.send("test")
-})
+
+router.get('/cars', carsController.getCarslist)
 
 module.exports = {
     router: router
