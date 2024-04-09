@@ -21,8 +21,21 @@ const getCarsDetail = async(req, res) => {
     }
 }
 
+const updateCars = async(req, res) => {
+    try{
+        const carRegistration = req.params.carRegistration
+        const carData = req.body
+        const cars = await carsRepo.updateCardetail(carRegistration, carData)
+        res.send({ status: 200, data: cars?.[0] || {} })
+    } catch(error){
+        console.log('error', error)
+        res.status(400).send({ status: 400, message: 'internal server error'})
+    }
+}
+
 
 module.exports = {
     getCarslist,
-    getCarsDetail
+    getCarsDetail,
+    updateCars
 }

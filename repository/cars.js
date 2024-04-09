@@ -24,10 +24,27 @@ const getCarsDetail = async(carRegistration) => {
     }
 }
 
+const updateCardetail = async(carRegistration, carData) => {
+    try{
+        let pool = await sql.connect(config.sql)
+        const sqlQueries = await utils.loadSqlQueries()
+        const update = await pool.request()
+                                    .input('carRegistration', sql.VarChar, carRegistration)
+                                    .input('brand', sql.VarChar, carData.brand)
+                                    .input('model', sql.VarChar, carData.model)
+                                    .input('remark', sql.VarChar, carData.remark)
+                                    .input('color', sql.VarChar, carData.color)
+                                    .input('year', sql.Int, carData.year)
+                                    .query(sqlQueries.updatecar)
 
-
+        return update.recordset
+    } catch (error){
+        throw error
+    }
+}
 
 module.exports = {
     getCarslist,
     getCarsDetail,
+    updateCardetail
 }
