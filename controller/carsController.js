@@ -33,9 +33,34 @@ const updateCars = async(req, res) => {
     }
 }
 
+const createCars = async(req, res) => {
+    try{
+        const carData = req.body
+        const cars = await carsRepo.createCardetail(carData)
+        res.send({ status: 200, data: cars?.[0] || {} })
+    } catch(error){
+        console.log('error', error)
+        res.status(400).send({ status: 400, message: 'internal server error'})
+    }
+}
+
+const deletedCars = async(req, res) => {
+    try{
+        const carRegistration = req.params.carRegistration
+        const cars = await carsRepo.deletedCardetail(carRegistration)
+        res.send({ status: 200, data: cars?.[0] || {} })
+    } catch(error){
+        console.log('error', error)
+        res.status(400).send({ status: 400, message: 'internal server error'})
+    }
+}
+
 
 module.exports = {
     getCarslist,
     getCarsDetail,
-    updateCars
+    updateCars,
+    createCars,
+    deletedCars
+    
 }

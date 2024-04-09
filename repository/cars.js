@@ -43,8 +43,45 @@ const updateCardetail = async(carRegistration, carData) => {
     }
 }
 
+const createCardetail = async(carData) => {
+    try{
+        let pool = await sql.connect(config.sql)
+        const sqlQueries = await utils.loadSqlQueries()
+        const create = await pool.request()
+                                    .input('carRegistration', sql.VarChar, carData.carRegistration)
+                                    .input('brand', sql.VarChar, carData.brand)
+                                    .input('model', sql.VarChar, carData.model)
+                                    .input('color', sql.VarChar, carData.color)
+                                    .input('year', sql.Int, carData.year)
+                                    .query(sqlQueries.createcar)
+
+        return create.recordset
+    } catch (error){
+        throw error
+    }
+}
+
+const deletedCardetail = async(carRegistration) => {
+    try{
+        let pool = await sql.connect(config.sql)
+        const sqlQueries = await utils.loadSqlQueries()
+        const deleted = await pool.request()
+                                    .input('carRegistration', sql.VarChar, carRegistration)
+                                    .query(sqlQueries.deletecar)
+                                
+
+
+        return deleted.recordset
+    } catch (error){
+        throw error
+    }
+}
+
+
 module.exports = {
     getCarslist,
     getCarsDetail,
-    updateCardetail
+    updateCardetail,
+    createCardetail,
+    deletedCardetail
 }
